@@ -27,10 +27,22 @@ idf.py build
 idf.py -p /dev/ttyACM0 flash monitor
 ```
 
-On Windows, launch an **ESP-IDF 5.5.3 PowerShell/Command Prompt**, then from
-this repository run `idf.py set-target esp32s3`, `idf.py build`, and
-`idf.py -p COM6 flash monitor` (adjust COM6 to the actual serial port).
-Always use **`flash`**, not `app-flash`: ESP-SR builds a separate model partition.
+On Windows, launch an **ESP-IDF 5.5.3 Command Prompt**, then from this
+repository run:
+
+```bat
+set "PYTHONIOENCODING=utf-8"
+idf.py set-target esp32s3
+idf.py build
+idf.py -p COM6 flash monitor
+```
+
+For an ESP-IDF PowerShell, use `$env:PYTHONIOENCODING = "utf-8"` instead
+of the `set` command. ESP-SR's model packer prints Unicode characters that
+cause a `UnicodeEncodeError` under Windows' default cp1252 console encoding;
+the variable must be set **before** `idf.py build`. Adjust COM6 to your actual
+serial port. Always use **`flash`**, not `app-flash`: ESP-SR builds a separate
+model partition.
 `pull-and-flash-com6.bat` fast-forwards `main`, builds in an ESP-IDF 5.5.3
 shell, and flashes **all** partitions to COM6. It requires Git for Windows and
 the exported ESP-IDF environment; if either is unavailable, it stops with an

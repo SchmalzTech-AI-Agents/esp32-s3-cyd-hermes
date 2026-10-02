@@ -19,6 +19,9 @@ if errorlevel 1 (
   echo [ERROR] Git update failed; preserve/resolve local changes before retrying.
   goto :failed
 )
+REM ESP-SR 2.5.5 prints Unicode model-report rules. A Windows cp1252 console
+REM otherwise raises UnicodeEncodeError after packing the model image.
+set "PYTHONIOENCODING=utf-8"
 echo [2/3] Selecting ESP32-S3 and building firmware plus Jarvis model...
 idf.py set-target esp32s3
 if errorlevel 1 goto :failed
